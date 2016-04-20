@@ -26,9 +26,8 @@ export default function pushStatusHandler(config) {
     let data =  body.data || {};
     let payloadString = JSON.stringify(data);
     let object = {
-      _id: objectId,
+      objectId,
       pushTime: now.toISOString(),
-      _created_at: now,
       query: JSON.stringify(where),
       payload: payloadString,
       source: options.source,
@@ -38,8 +37,7 @@ export default function pushStatusHandler(config) {
       numSent: 0,
       pushHash: md5Hash(payloadString),
       // lockdown!
-      _wperm: [],
-      _rperm: []
+      ACL: {}
     }
 
     return database.create(PUSH_STATUS_COLLECTION, object).then(() => {
